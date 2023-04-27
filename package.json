@@ -1,0 +1,26 @@
+{
+  "name": "coderhub",
+  "version": "1.0.0",
+  "description": "基于 Koa 开发的 coderhub 后端服务项目",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zt2tzzt/coderhub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zt2tzzt/coderhub/issues"
+  },
+  "homepage": "https://github.com/Zt2tzzt/coderhub#readme",
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.0"
+  }
+}
