@@ -12,7 +12,6 @@ const connectionPool = mysql.createPool({
 
 // 2.获取连接是否成功
 connectionPool.getConnection((err, connection) => {
-
   // 1.判断是否有错误信息
   if (err) {
     console.log('获取连接失败~', err)
@@ -27,7 +26,6 @@ connectionPool.getConnection((err, connection) => {
       console.log('连接数据库成功，可以操作数据库~')
     }
   })
-
 })
 
 // 3.获取连接池中的连接对象（promise）

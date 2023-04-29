@@ -2,7 +2,6 @@ const userService = require('../service/user.service')
 
 class UserController {
   async create(ctx, next) {
-
     // 1.获取用户传递过来的信息
     const user = ctx.request.body
 

@@ -2,7 +2,6 @@ const { NAME_OR_PASSWORD_IS_REQUIRED, NAME_IS_ALREADY_EXISTS } = require('../con
 const userService = require('../service/user.service')
 const md5password = require('../utils/md5-password')
 
-
 /**
  * @description: 此中间件用于：验证客户端传递过来的 user 是否可以保存到数据库中
  * @Author: ZeT1an
@@ -30,7 +29,7 @@ const verifyUser = async (ctx, next) => {
 /**
  * @description: 此中间件用于：对用户的密码，进行 MD5 加密
  * @Author: ZeT1an
- * @param {*} ctx koa 
+ * @param {*} ctx koa
  * @param {*} next koa next
  * @return {*}
  */
