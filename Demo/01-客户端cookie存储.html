@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>客户端 cookie 设置</title>
+</head>
+
+<body>
+  <button class="create">设置 cookie</button>
+  <button class="delete">删除 cookie</button>
+
+  <script>
+    const createBtnEl = document.querySelector('.create')
+    createBtnEl.onclick = function() {
+      console.log('haha')
+      // 在浏览器中，通过 js 设置 cookie
+
+      // 没有设置 max-age 时，是一个内存 cookie，浏览器关闭时，会自动消失
+      document.cookie = "name=zzt;"
+
+      // 设置 max-age 时，是一个硬盘 cookie，只能等到过期时间到达，才会销毁
+      document.cookie = "age=18;max-age=60"
+    }
+
+    const deleteBtnEl = document.querySelector('.delete')
+    deleteBtnEl.onclick = function() {
+
+      // 设置 max-age 为 0 时，删除 cookie。
+      document.cookie = 'age=18;max-age=0'
+    }
+  </script>
+</body>
+</html>
