@@ -10,9 +10,10 @@ const userRouter = new KoaRouter({ prefix: '/users' })
 
 const session = koaSession({
   key: 'sessionid',
-  signed: false,
+  signed: true,
   maxAge: 60 * 1000 * 5,
 }, app)
+app.keys = ['aaa', 'bbb', 'zzt', 'kobe']
 app.use(session)
 
 // 在路由中，注册中间件

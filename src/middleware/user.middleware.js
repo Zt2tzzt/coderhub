@@ -1,4 +1,4 @@
-const { NAME_OR_PASSWORD_IS_REQUIRED, NAME_IS_ALREADY_EXISTS } = require('../config/error')
+const { NAME_OR_PASSWORD_IS_REQUIRED, NAME_IS_ALREADY_EXIST } = require('../config/error')
 const userService = require('../service/user.service')
 const md5password = require('../utils/md5-password')
 
@@ -19,7 +19,7 @@ const verifyUser = async (ctx, next) => {
   // 2.判断 name，是否再数据库中已经存在
   const users = await userService.findUserByName(name)
   if (users.length) {
-    return ctx.app.emit('error', NAME_IS_ALREADY_EXISTS, ctx)
+    return ctx.app.emit('error', NAME_IS_ALREADY_EXIST, ctx)
   }
 
   // 3.执行下一个中间件
