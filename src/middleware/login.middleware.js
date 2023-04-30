@@ -65,7 +65,7 @@ const verifyAuth = async (ctx, next) => {
       algorithms: ['RS256']
     })
 
-    // 3.将 user 对象，保存在 ctx 中
+    // 3.将 user 信息，保存在 ctx 中
     ctx.user = result
 
     next()
