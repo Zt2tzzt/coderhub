@@ -16,7 +16,7 @@ const verifyUser = async (ctx, next) => {
     return ctx.app.emit('error', NAME_OR_PASSWORD_IS_REQUIRED, ctx)
   }
 
-  // 2.判断 name，是否再数据库中已经存在
+  // 2.判断 name，是否在数据库中已经存在
   const users = await userService.findUserByName(name)
   if (users.length) {
     return ctx.app.emit('error', NAME_IS_ALREADY_EXIST, ctx)
