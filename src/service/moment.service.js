@@ -29,13 +29,14 @@ class MomentService {
         m.content content,
         m.createAt createTime,
         m.updateAt updateTime,
-        JSON_OBJECT( 'id', u.id, 'name', u.NAME, 'createTime', u.createAt, 'updateTime', u.updateAt ) USER 
+        JSON_OBJECT( 'id', u.id, 'name', u.NAME, 'createTime', u.createAt, 'updateTime', u.updateAt ) \`user\` 
       FROM
         moment m
         LEFT JOIN user u ON u.id = m.user_id 
         LIMIT ? OFFSET ?;
     `
-    const [result] = await connection.execute(statement, [String(limit), String(offset)])
+    // const [result] = await connection.execute(statement, [String(limit), String(offset)])
+    const [result] = await connection.execute(statement, [limit, offset])
     return result
   }
 
@@ -52,7 +53,7 @@ class MomentService {
         m.content content,
         m.createAt createTime,
         m.updateAt updateTime,
-        JSON_OBJECT( 'id', u.id, 'name', u.NAME, 'createTime', u.createAt, 'updateTime', u.updateAt ) USER 
+        JSON_OBJECT( 'id', u.id, 'name', u.NAME, 'createTime', u.createAt, 'updateTime', u.updateAt ) \`user\` 
       FROM
         moment m
       LEFT JOIN \`user\` u ON u.id = m.user_id 
