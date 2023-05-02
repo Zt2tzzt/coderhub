@@ -51,15 +51,14 @@ const verifyLogin = async (ctx, next) => {
  * @return {*}
  */
 const verifyAuth = async (ctx, next) => {
-  // 1.获取 token
+  // 1.获取 token 不能为空
   const authorization = ctx.headers.authorization
   if (!authorization) {
     return ctx.app.emit('error', UNAUTHORIZATION, ctx)
   }
 
-  const token = authorization.replace('Bearer ', '')
-
   // 2.验证 token 是否是有效的
+  const token = authorization.replace('Bearer ', '')
   try {
     const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256']
@@ -68,7 +67,7 @@ const verifyAuth = async (ctx, next) => {
     // 3.将 user 信息，保存在 ctx 中
     ctx.user = result
 
-    next()
+    await next()
   } catch (err) {
     ctx.app.emit('error', INVALID_AUTHORIZATION, ctx)
   }

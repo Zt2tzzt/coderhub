@@ -19,7 +19,7 @@ userRouter.get('/login', (ctx, next) => {
   })
 
   ctx.body = {
-    code: 0,
+    code: 1,
     token,
     msg: '登录成功~'
   }
@@ -38,7 +38,7 @@ userRouter.get('/list', (ctx, next) => {
     // result: { id: 111, name: 'zzt', iat: 1682824424, exp: 1682824484 }
 
     ctx.body = {
-      code: 0,
+      code: 1,
       data: [
         { id: 111, name: 'zzt' },
         { id: 112, name: 'kobe' },
@@ -52,13 +52,11 @@ userRouter.get('/list', (ctx, next) => {
       msg: 'token 过期或者无效~'
     }
   }
-
 })
 
 // 注册路由
 app.use(userRouter.routes())
 app.use(userRouter.allowedMethods())
-
 
 // 开启 Koa 服务器
 app.listen(9000, () => {

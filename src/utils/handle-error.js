@@ -5,13 +5,14 @@ const {
   NAME_IS_NOT_EXIST,
   PASSWORD_IS_INCORRENT,
   UNAUTHORIZATION,
-  INVALID_AUTHORIZATION
+  INVALID_AUTHORIZATION,
+  OPERATION_IS_NOT_ALLOWED
 } = require('../config/error')
 
 app.on('error', (err, ctx) => {
-  console.log('发生错误了~')
+  console.log('发生错误了~ err:', err)
   let code = 0
-  let msg = ''
+  let msg = '未知的错误~'
 
   switch (err) {
     case NAME_OR_PASSWORD_IS_REQUIRED:
@@ -37,6 +38,10 @@ app.on('error', (err, ctx) => {
     case INVALID_AUTHORIZATION:
       code = -1006
       msg = '无效的授权信息~'
+    case OPERATION_IS_NOT_ALLOWED:
+      code = -2001,
+      msg = '没有操作该资源的权限，或该资源已不存在~'
+      break
     default:
       break
   }

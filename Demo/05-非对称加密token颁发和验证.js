@@ -24,7 +24,7 @@ userRouter.get('/login', (ctx, next) => {
   })
 
   ctx.body = {
-    code: 0,
+    code: 1,
     token,
     msg: '登陆成功~'
   }
@@ -44,11 +44,11 @@ userRouter.get('/list', (ctx, next) => {
     console.log('result:', result)
 
     ctx.body = {
-      code: 0,
+      code: 1,
       data: [
         { id: 111, name: 'zzt' },
         { id: 112, name: 'kobe' },
-        { id: 113, name: 'messi' },
+        { id: 113, name: 'messi' }
       ]
     }
   } catch (err) {
@@ -63,7 +63,6 @@ userRouter.get('/list', (ctx, next) => {
 // 注册路由
 app.use(userRouter.routes())
 app.use(userRouter.allowedMethods())
-
 
 // 开启 Koa 服务器
 app.listen(9000, () => {
