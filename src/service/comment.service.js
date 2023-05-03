@@ -28,7 +28,18 @@ class CommentService {
     const statement = 'INSERT INTO comment (content, moment_id, comment_id, user_id) VALUES (?, ?, ?, ?);';
     const [result] = await connection.execute(statement, [content, momentId, commentId, userId]);
     return result
+  }
 
+  /**
+   * @description: 此函数用于：删除评论
+   * @Author: ZeT1an
+   * @param {number} id 评论 id
+   * @return {object} mysql 返回的结果
+   */
+  async remove(id) {
+    const statement = "DELETE FROM comment WHERE id = ?;"
+    const [result] = await connection.execute(statement, [id]);
+    return result
   }
 }
 

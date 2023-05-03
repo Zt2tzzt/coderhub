@@ -25,7 +25,7 @@ class CommentController {
   }
 
   /**
-   * @description: 此函数用于：回复评论
+   * @description: 此中间件用于：回复评论
    * @Author: ZeT1an
    * @param {*} ctx koa ctx
    * @param {*} next koa next
@@ -43,6 +43,26 @@ class CommentController {
     ctx.body = {
       code: 1,
       msg: '回复评论成功~',
+      data: result
+    }
+  }
+
+  /**
+   * @description: 此中间件用于：删除评论
+   * @Author: ZeT1an
+   * @param {*} ctx koa ctx
+   * @param {*} next koa next
+   * @return {*}
+   */
+  async remove(ctx, next) {
+    // 1.获取评论 id
+    const { commentId } = ctx.params;
+    // 2.数据库操作
+    const result = await commentService.remove(commentId);
+
+    ctx.body = {
+      code: 1,
+      msg: '删除评论成功~',
       data: result
     }
   }
