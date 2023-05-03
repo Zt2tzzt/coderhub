@@ -16,14 +16,14 @@ const verifyLabelExist = async (ctx, next) => {
     return labelService.queryLabelByName(label).then(res => {
       if (res) {
         return {
-          isNew: false,
+          isNew: false, // 不是新增的标签
           id: res.id,
           name: label
         }
       } else {
         return labelService.create(label).then(res => {
           return {
-            isNew: true,
+            isNew: true, // 是新增的标签
             id: res.insertId,
             name: label
           }
