@@ -63,6 +63,8 @@ const verifyAuth = async (ctx, next) => {
     const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256']
     })
+    console.log('result:', result)
+    // result: { id: 10, name: 'zzt', iat: 1683084536, exp: 1683170936 }
 
     // 3.将 user 信息，保存在 ctx 中
     ctx.user = result

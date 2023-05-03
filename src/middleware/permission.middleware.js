@@ -10,7 +10,7 @@ const { OPERATION_IS_NOT_ALLOWED } = require('../config/error');
  */
 const verifyPermission = async (ctx, next) => {
   // 1.获取登录用户的 id
-  const { id } = ctx.user;
+  const userId = ctx.user.id;
 
   /**
    * 2.获取资源（表名）的 name/id，比如：
@@ -22,7 +22,7 @@ const verifyPermission = async (ctx, next) => {
   const resourceName = keyName.replace('Id', '')
 
   // 2.查询 user 是否有修改 resource 的权限
-  const isPermission = await pwermissionService.checkResource(resourceName, resourceId, id)
+  const isPermission = await pwermissionService.checkResource(resourceName, resourceId, userId)
   if (!isPermission) {
     return ctx.app.emit('error', OPERATION_IS_NOT_ALLOWED, ctx)
   }
