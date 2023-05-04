@@ -1,4 +1,7 @@
 const userService = require('../service/user.service')
+const fileService = require('../service/file.service')
+const fs = require('fs')
+const { UPLOAD_PATH } = require('../config/path');
 
 class UserController {
   /**
@@ -21,6 +24,27 @@ class UserController {
       data: result
     }
   }
+
+  /**
+   * @description: 此函数用于：根据用户 id，返回用户头像
+   * @Author: ZeT1an
+   * @param {*} ctx koa ctx
+   * @param {*} next koa next
+   * @return {*}
+   */
+  async showAvatarImage(ctx, next) {
+    // 1.获取用户 id
+    const { userId } = ctx.params;
+    // 2.根据用户 id，获取用户头像信息
+    const avatarInfo = await fileService.queryAvatarByUserId(userId)
+
+    // 3.返回头像文件
+    const { filename, mimetype } = avatarInfo;
+    ctx.type = mimetype
+    ctx.body = fs.createReadStream(`${UPLOAD_PATH}/${filename}`)
+
+  }
+
 }
 
 module.exports = new UserController()

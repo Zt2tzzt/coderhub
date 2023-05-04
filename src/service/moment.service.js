@@ -31,7 +31,8 @@ class MomentService {
         m.updateAt updateTime,
         JSON_OBJECT(
           'id', u.id,
-          'name', u.NAME,
+          'name', u.name,
+          'avatarUrl', u.avatar_url,
           'createTime', u.createAt,
           'updateTime', u.updateAt
         ) \`user\`,
@@ -68,7 +69,7 @@ class MomentService {
         m.content content,
         m.createAt createTime,
         m.updateAt updateTime,
-        JSON_OBJECT( 'id', u.id, 'name', u.name, 'createTime', u.createAt, 'updateTime', u.updateAt ) \`user\`,
+        JSON_OBJECT( 'id', u.id, 'name', u.name, 'createTime', u.createAt, 'updateTime', u.updateAt, 'avatarUrl', u.avatar_url ) \`user\`,
         (SELECT
           JSON_ARRAYAGG(
             JSON_OBJECT(
@@ -79,7 +80,7 @@ class MomentService {
               'commentId',
               c.comment_id,
               'user',
-              JSON_OBJECT( 'id', cu.id, 'name', cu.name) 
+              JSON_OBJECT( 'id', cu.id, 'name', cu.name, 'avatarUrl', u.avatar_url) 
             )) 
         FROM
           \`comment\` c
