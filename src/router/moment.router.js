@@ -1,21 +1,28 @@
 const KoaRouter = require('@koa/router')
 const { verifyAuth } = require('../middleware/login.middleware')
-const momentController = require('../controller/moment.controller');
-const { verifyPermission } = require('../middleware/permission.middleware');
-const { verifyLabelExist } = require('../middleware/label.middleware');
+const {
+  create,
+  list,
+  detail,
+  updata,
+  remove,
+  addLabels
+} = require('../controller/moment.controller')
+const { verifyPermission } = require('../middleware/permission.middleware')
+const { verifyLabelExist } = require('../middleware/label.middleware')
 
 const momentRouter = new KoaRouter({ prefix: '/moment' })
 
 // 1.增：发布动态
-momentRouter.post('/', verifyAuth, momentController.create)
+momentRouter.post('/', verifyAuth, create)
 // 2.查：查询动态列表
-momentRouter.get('/', momentController.list)
+momentRouter.get('/', list)
 // 3.查：查询动态详情
-momentRouter.get('/:momentId', momentController.detail)
+momentRouter.get('/:momentId', detail)
 // 4.改：修改动态
-momentRouter.patch('/:momentId', verifyAuth, verifyPermission, momentController.updata)
+momentRouter.patch('/:momentId', verifyAuth, verifyPermission, updata)
 // 5.删：删除动态
-momentRouter.delete('/:momentId', verifyAuth, verifyPermission, momentController.remove)
+momentRouter.delete('/:momentId', verifyAuth, verifyPermission, remove)
 
 // 6.增：为已存在的动态，添加标签
 /**
@@ -28,6 +35,6 @@ momentRouter.delete('/:momentId', verifyAuth, verifyPermission, momentController
  *   - 此时，所有标签，都在 label 表中；
  *   - 将动态 id 和标签 id，添加到关系表中。
  */
-momentRouter.post('/:momentId/labels', verifyAuth, verifyPermission, verifyLabelExist, momentController.addLabels)
+momentRouter.post('/:momentId/labels', verifyAuth, verifyPermission, verifyLabelExist, addLabels)
 
 module.exports = momentRouter

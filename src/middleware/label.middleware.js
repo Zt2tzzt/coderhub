@@ -10,7 +10,6 @@ const labelService = require('../service/label.service')
 const verifyLabelExist = async (ctx, next) => {
   // 1.获取客户端传递过来的所有 labels
   const { labels } = ctx.request.body;
-  console.log('labels:', labels)
 
   const promises = labels.map(label => {
     return labelService.queryLabelByName(label).then(res => {
