@@ -124,14 +124,14 @@ class MomentController {
 
     // 2.在中间表 moment_label 插入记录
     try {
-      const promises = preparedLabels.map(labelObj => {
-        // 判断 label_id 是否已经和 moment_id 在中间表中关联。
-        return momentService.hasLabel(momentId, labelObj.id).then(res => {
+      // 判断 label_id 是否已经和 moment_id 在中间表中关联。
+      const promises = preparedLabels.map(labelObj =>
+        momentService.hasLabel(momentId, labelObj.id).then(res => {
           if (!res) {
             return momentService.addLabel(momentId, labelObj.id)
           }
         })
-      })
+      )
       const result = await Promise.all(promises)
 
       ctx.body = {

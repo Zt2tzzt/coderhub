@@ -9,27 +9,23 @@ const labelService = require('../service/label.service')
  */
 const verifyLabelExist = async (ctx, next) => {
   // 1.获取客户端传递过来的所有 labels
-  const { labels } = ctx.request.body;
+  const { labels } = ctx.request.body
 
-  const promises = labels.map(label => {
-    return labelService.queryLabelByName(label).then(res => {
-      if (res) {
-        return {
-          isNew: false, // 不是新增的标签
-          id: res.id,
-          name: label
-        }
-      } else {
-        return labelService.create(label).then(res => {
-          return {
+  const promises = labels.map(label =>
+    labelService.queryLabelByName(label).then(res =>
+      res
+        ? {
+            isNew: false, // 不是新增的标签
+            id: res.id,
+            name: label
+          }
+        : labelService.create(label).then(res => ({
             isNew: true, // 是新增的标签
             id: res.insertId,
             name: label
-          }
-        })
-      }
-    })
-  });
+          }))
+    )
+  )
 
   const preparedLabels = await Promise.all(promises)
   const nweLabels = preparedLabels.filter(label => label.isNew)
