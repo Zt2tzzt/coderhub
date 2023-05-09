@@ -64,13 +64,12 @@ const verifyAuth = async (ctx, next) => {
       algorithms: ['RS256']
     })
 
+    // 3.将 user 信息，保存在 ctx 中
+    ctx.user = result
   } catch (err) {
-    console.log('err:'. err)
+    console.log('err:'.err)
     ctx.app.emit('error', INVALID_AUTHORIZATION, ctx)
   }
-
-  // 3.将 user 信息，保存在 ctx 中
-  ctx.user = result
 
   await next()
 }
