@@ -69,6 +69,7 @@ const verifyAuth = async (ctx, next) => {
   } catch (err) {
     console.log('err:'.err)
     ctx.app.emit('error', INVALID_AUTHORIZATION, ctx)
+    return
   }
 
   await next()
