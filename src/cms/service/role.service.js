@@ -3,7 +3,7 @@ const menuService = require('./menu.service')
 
 class RoleService {
   /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：在 role 表中，插入角色记录。
    * @Author: ZeT1an
    * @param {*} role
    * @return {*}
@@ -13,12 +13,12 @@ class RoleService {
     const statement = `INSERT INTO role SET ?;`
 
     // 执行 sql
-    const [result] = await connection.query(statement, [role])
+    const [result] = await connection.query(statement, [role]) // role 为对象，其中 key 为表中字段名，value 为要插入的值。
     return result
   }
 
   /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：查询 role 表中的记录
    * @Author: ZeT1an
    * @param {*} offset
    * @param {*} limit
@@ -32,7 +32,7 @@ class RoleService {
   }
 
   /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：为角色分配菜单权限，删除原有的记录，向 role_menu 表中插入记录。
    * @Author: ZeT1an
    * @param {*} roleId
    * @param {*} menuIds
@@ -51,7 +51,7 @@ class RoleService {
   }
 
   /**
-   * @description: 此函数用于：获取角色对应的菜单权限
+   * @description: 此函数用于：获取角色对应的菜单权限记录
    * @Author: ZeT1an
    * @param {*} roleId 角色 id
    * @return {*}
@@ -83,7 +83,6 @@ class RoleService {
         if (item.children) {
           item.children = filterMenu(item.children)
         }
-
         if (menuIds.includes(item.id)) {
           newMenu.push(item)
         }

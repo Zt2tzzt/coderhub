@@ -2,7 +2,7 @@ const roleService = require('../service/role.service');
 
 class RoleController {
   /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：创建角色
    * @Author: ZeT1an
    * @param {*} ctx
    * @param {*} next
@@ -24,30 +24,12 @@ class RoleController {
     }
   }
 
-  /**
-   * @description: 此函数用于：
-   * @Author: ZeT1an
-   * @param {*} ctx
-   * @param {*} next
-   * @return {*}
-   */
-  async remove(ctx, next) {
-    
-  }
+  async remove(ctx, next) {}
+
+  async update(ctx, next) {}
 
   /**
-   * @description: 此函数用于：
-   * @Author: ZeT1an
-   * @param {*} ctx
-   * @param {*} next
-   * @return {*}
-   */
-  async update(ctx, next) {
-    
-  }
-
-  /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：查询角色列表
    * @Author: ZeT1an
    * @param {*} ctx
    * @param {*} next
@@ -73,19 +55,10 @@ class RoleController {
     }
   }
 
-  /**
-   * @description: 此函数用于：
-   * @Author: ZeT1an
-   * @param {*} ctx
-   * @param {*} next
-   * @return {*}
-   */
-  async detail(ctx, next) {
-    
-  }
+  async detail(ctx, next) {}
 
   /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：分配角色菜单。
    * @Author: ZeT1an
    * @param {*} ctx
    * @param {*} next

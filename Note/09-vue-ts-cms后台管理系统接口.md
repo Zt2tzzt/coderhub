@@ -1,8 +1,10 @@
-在 postman 中，新增角色接口文件夹。
-
-
+# vue-ts-cms 后台管理系统接口
 
 在项目中，新建 cms 文件夹，在其中，创建 router、service、controller 文件夹。
+
+## 一、角色接口
+
+在 postman 中，新增”角色接口“文件夹。
 
 编写自动化注册 cms 路由的程序：
 
@@ -27,6 +29,8 @@ const registerCmsRouters = app => {
 
 module.exports = registerCmsRouters
 ```
+
+### 1.role router
 
 新建 role.router.js 文件
 
@@ -53,7 +57,9 @@ roleRouter.get('/:roleId', verifyAuth, detail)
 module.exports = roleRouter
 ```
 
-新建 role.controller.js 文件，编写 controller 层。
+### 2.role controller
+
+新建 role.controller.js 文件。
 
 src\cms\controller\role.controller.js
 
@@ -62,7 +68,7 @@ const roleService = require('../service/role.service');
 
 class RoleController {
   /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：创建角色
    * @Author: ZeT1an
    * @param {*} ctx
    * @param {*} next
@@ -89,7 +95,7 @@ class RoleController {
   async update(ctx, next) {}
 
   /**
-   * @description: 此函数用于：
+   * @description: 此函数用于：查询角色列表
    * @Author: ZeT1an
    * @param {*} ctx
    * @param {*} next
@@ -112,27 +118,25 @@ class RoleController {
 module.exports = new RoleController()
 ```
 
+### 3.role service
 
-
-数据库中，创建表 role
+在数据库中，创建表 role 表。
 
 ```mysql
 CREATE TABLE IF NOT EXISTS role (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(20) NOT NULL UNIQUE,
-	intro VARCHAR(200),
-	createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(20) NOT NULL UNIQUE,
+  intro VARCHAR(200),
+  createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 ```
 
-
-
-新建 role.service.js 文件，编写 service 层。
+新建 role.service.js 文件。
 
 创建角色方法编写：
 
-插入语句的预处理形式，使用 connection.query(statement)，支持传入对象。
+插入语句的预处理形式，使用 `connection.query(statement)`，支持传入对象。
 
 src\cms\service\role.service.js
 
@@ -145,7 +149,7 @@ class RoleService {
     const statement = `INSERT INTO role SET ?;`
 
     // 执行 sql
-    const [result] = await connection.query(statement, [role]);
+    const [result] = await connection.query(statement, [role]); // role 为对象，其中 key 为表中字段名，value 为要插入的值。
     return result
   }
 }
@@ -173,9 +177,33 @@ class RoleService {
 module.exports = new RoleService()
 ```
 
----
+## 二、菜单接口
 
-创建菜单路由
+在 postman 中，创建菜单接口；
+
+在数据库中，创建 menu 表
+
+```mysql
+CREATE TABLE IF NOT EXISTS menu (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(20) NOT NULL,
+  type TINYINT(1),
+  icon VARCHAR(20) NOT NULL,
+  parentId INT DEFAULT NULL,
+  url VARCHAR(50) UNIQUE,
+  permission VARCHAR(100) UNIQUE,
+  sort INT DEFAULT 100,
+  createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY(parentId) REFERENCES menu(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+```
+
+在 menu 表中，插入若干记录。
+
+### 1.menu router
+
+创建菜单路由:
 
 src\cms\router\menu.router.js
 
@@ -194,33 +222,9 @@ menuRouter.post('/', verifyAuth, list)
 module.exports = menuRouter
 ```
 
+### 2.创建菜单
 
-
-在数据库中，创建 menu 表
-
-```mysql
-CREATE TABLE IF NOT EXISTS menu (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(20) NOT NULL,
-	type TINYINT(1),
-	icon VARCHAR(20) NOT NULL,
-	parentId INT DEFAULT NULL,
-	url VARCHAR(50) UNIQUE,
-	permission VARCHAR(100) UNIQUE,
-	sort INT DEFAULT 100,
-	createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY(parentId) REFERENCES menu(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-```
-
-在 menu 表中，插入记录。
-
-在 postman 中，创建菜单接口；
-
----
-
-创建菜单功能。
+#### 1.menu controller 1
 
 编写 menu.controller.js
 
@@ -263,6 +267,8 @@ class MenuController {
 module.exports = new MenuController()
 ```
 
+#### 3.menu service 1
+
 编写 menu.service.js
 
 src\cms\service\menu.service.js
@@ -288,7 +294,9 @@ class MenuService {
 module.exports = new MenuService()
 ```
 
-查询菜单功能编写
+### 3.查询菜单
+
+#### 1.menu controller 2
 
 编写 menu.controller.js
 
@@ -304,6 +312,8 @@ async list(ctx, next) {
   }
 }
 ```
+
+#### 2.menu service 2
 
 编写 menu.service.js
 
@@ -374,23 +384,27 @@ async wholeMenu() {
 }
 ```
 
----
+### 4.中间表（role_menu)
 
-在 role 表 和 menu 表之间，创建关系表 role_menu。
+在 role 表和 menu 表之间，创建关系表 role_menu 表。
 
 ```mysql
 CREATE TABLE IF NOT EXISTS `role_menu`(
-	roleId INT NOT NULL,
-	menuId INT NOT NULL,
-	createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY(roleId, menuId),
-	FOREIGN KEY (roleId) REFERENCES role(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (menuId) REFERENCES menu(id) ON DELETE CASCADE ON UPDATE CASCADE
+  roleId INT NOT NULL,
+  menuId INT NOT NULL,
+  createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(roleId, menuId),
+  FOREIGN KEY (roleId) REFERENCES role(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (menuId) REFERENCES menu(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ```
 
-编写 role.controller.js，编写“给角色分配权限”的功能
+### 5.给角色分配菜单权限
+
+编写“给角色分配权限”的功能
+
+修改 role.controller.js 中，`assignMenu` 方法。
 
 ```js
 async assignMenu(ctx, next) {
@@ -410,15 +424,15 @@ async assignMenu(ctx, next) {
 }
 ```
 
-编写 role.service.js，编写分配权限的功能
+在 `role.service.js` 中，编写分配权限的功能
 
 有两种方案：
 
-方案一：判断手否存在，不存在的权限，再插入（类似于给动态分配标签的接口）；
+方案一：判断角色被分配的权限，在中间表中是否已经存在，若不存在，再插入进中间表（类似于前面给动态分配标签的接口）；
 
 方案二：直接在中间表中，删除已有的权限，再重新插入记录。
 
-项目中采用方案二。
+项目中采用”方案二“。
 
 ```js
 async assignmenu(roleId, menuIds) {
@@ -434,11 +448,11 @@ async assignmenu(roleId, menuIds) {
 }
 ```
 
----
+#### 1.解耦（难点）
 
 获取角色权限时，进行解耦（难点）。
 
-编写 sql 语句，查询 roleId = 2 的角色，有哪些菜单。
+尝试编写 sql 语句，查询 `roleId = 2` 的角色，分配了哪些权限菜单。
 
 ```mysql
 SELECT rm.roleId, JSON_ARRAYAGG(rm.menuId) menuIds
@@ -448,6 +462,8 @@ GROUP BY rm.roleId
 ```
 
 在 role.service.js 中，编写 `getRoleMenu` 方法。
+
+用于获取角色分配的菜单权限 id，根据该 id，匹配菜单对象，并返回。
 
 src\cms\service\role.service.js
 
@@ -492,7 +508,7 @@ async getRoleMenu(roleId) {
 }
 ```
 
-在 role.controller.js 中，修改 `list` 方法：
+在 `role.controller.js` 中，修改 `list` 方法：
 
 src\cms\controller\role.controller.js
 
@@ -517,4 +533,3 @@ async list(ctx, next) {
   }
 }
 ```
-
