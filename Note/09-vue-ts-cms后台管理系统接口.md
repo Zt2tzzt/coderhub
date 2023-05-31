@@ -32,7 +32,7 @@ module.exports = registerCmsRouters
 
 ### 1.role router
 
-新建 role.router.js 文件
+新建 `role.router.js` 文件
 
 src\cms\router\role.router.js
 
@@ -59,7 +59,7 @@ module.exports = roleRouter
 
 ### 2.role controller
 
-新建 role.controller.js 文件。
+新建 `role.controller.js` 文件。
 
 src\cms\controller\role.controller.js
 
@@ -104,6 +104,7 @@ class RoleController {
   async list(ctx, next) {
     const { offset = 0, limit = 10} = ctx.query;
     const result = await roleService.list(Number(offset), Number(limit))
+    
     ctx.body = {
       code: 1,
       msg: '获取角色列表成功~',
@@ -112,7 +113,6 @@ class RoleController {
   }
 
   async detail(ctx, next) { }
-
 }
 
 module.exports = new RoleController()
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS role (
 );
 ```
 
-新建 role.service.js 文件。
+新建 `role.service.js` 文件。
 
 创建角色方法编写：
 
@@ -226,7 +226,7 @@ module.exports = menuRouter
 
 #### 1.menu controller 1
 
-编写 menu.controller.js
+编写 `menu.controller.js` 文件。
 
 src\cms\controller\menu.controller.js
 
@@ -251,17 +251,6 @@ class MenuController {
       data: result
     }
   }
-
-  /**
-   * @description: 此函数用于：
-   * @Author: ZeT1an
-   * @param {*} ctx
-   * @param {*} next
-   * @return {*}
-   */
-  async list(ctx, next) {
-
-  }
 }
 
 module.exports = new MenuController()
@@ -269,7 +258,7 @@ module.exports = new MenuController()
 
 #### 3.menu service 1
 
-编写 menu.service.js
+编写 `menu.service.js` 文件。
 
 src\cms\service\menu.service.js
 
@@ -298,13 +287,14 @@ module.exports = new MenuService()
 
 #### 1.menu controller 2
 
-编写 menu.controller.js
+编写 `menu.controller.js` 文件。
 
 src\cms\controller\menu.controller.js
 
 ```js
 async list(ctx, next) {
   const result = await menuService.wholeMenu()
+  
   ctx.body = {
     code: 1,
     msg: '获取完整菜单成功~',
@@ -315,7 +305,7 @@ async list(ctx, next) {
 
 #### 2.menu service 2
 
-编写 menu.service.js
+编写 `menu.service.js` 文件。
 
 使用子查询，查询二、三级菜单。
 
@@ -440,7 +430,7 @@ async assignmenu(roleId, menuIds) {
   const deleteStatement = `DELETE FROM role_menu WHERE roleId = ?`;
   await connection.query(deleteStatement, [roleId])
 
-  // 2.差人新的值
+  // 2.插人新的值
   const insertStatement = `INSERT INTO role_menu (roleId, menuId) VALUES (?, ?);`
   for (const menuId of menuIds) {
     await connection.query(insertStatement, [roleId, menuId])
@@ -452,7 +442,9 @@ async assignmenu(roleId, menuIds) {
 
 获取角色权限时，进行解耦（难点）。
 
-尝试编写 sql 语句，查询 `roleId = 2` 的角色，分配了哪些权限菜单。
+尝试编写 sql 语句，查询 `roleId = 2` 的角色，分配了哪些权限菜单，
+
+获取到菜单 id 的数组。
 
 ```mysql
 SELECT rm.roleId, JSON_ARRAYAGG(rm.menuId) menuIds
@@ -461,7 +453,7 @@ WHERE rm.roleId = 2
 GROUP BY rm.roleId
 ```
 
-在 role.service.js 中，编写 `getRoleMenu` 方法。
+在 `role.service.js` 中，编写 `getRoleMenu` 方法。
 
 用于获取角色分配的菜单权限 id，根据该 id，匹配菜单对象，并返回。
 
@@ -495,7 +487,6 @@ async getRoleMenu(roleId) {
       if (item.children) {
         item.children = filterMenu(item.children)
       }
-
       if (menuIds.includes(item.id)) {
         newMenu.push(item)
       }
@@ -503,12 +494,13 @@ async getRoleMenu(roleId) {
 
     return newMenu
   }
-
   return filterMenu(wholeMenu)
 }
 ```
 
 在 `role.controller.js` 中，修改 `list` 方法：
+
+加入“获取菜单信息”的功能。
 
 src\cms\controller\role.controller.js
 
