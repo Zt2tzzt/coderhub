@@ -289,6 +289,8 @@ module.exports = new MenuService()
 
 编写 `menu.controller.js` 文件。
 
+获取系统中完整菜单权限。
+
 src\cms\controller\menu.controller.js
 
 ```js
@@ -394,7 +396,7 @@ CREATE TABLE IF NOT EXISTS `role_menu`(
 
 编写“给角色分配权限”的功能
 
-修改 role.controller.js 中，`assignMenu` 方法。
+修改 `role.controller.js` 中，`assignMenu` 方法。
 
 ```js
 async assignMenu(ctx, next) {
@@ -414,11 +416,11 @@ async assignMenu(ctx, next) {
 }
 ```
 
-在 `role.service.js` 中，编写分配权限的功能
+在 `role.service.js` 中，编写分配权限的功能：
 
 有两种方案：
 
-方案一：判断角色被分配的权限，在中间表中是否已经存在，若不存在，再插入进中间表（类似于前面给动态分配标签的接口）；
+方案一：判断角色被分配的权限，在中间表中，是否已经存在，若不存在，再插入进中间表（类似于前面给动态分配标签的接口）；
 
 方案二：直接在中间表中，删除已有的权限，再重新插入记录。
 
@@ -455,7 +457,7 @@ GROUP BY rm.roleId
 
 在 `role.service.js` 中，编写 `getRoleMenu` 方法。
 
-用于获取角色分配的菜单权限 id，根据该 id，匹配菜单对象，并返回。
+用于获取角色分配的菜单权限 id 数组，根据这些 id，匹配菜单对象，并返回。
 
 src\cms\service\role.service.js
 
@@ -469,9 +471,7 @@ async getRoleMenu(roleId) {
     GROUP BY rm.roleId
   `
   const [result] = await connection.query(getMenuIdsStatement, [roleId])
-  console.log('result', result)
   const menuIds = result?.[0]?.menuIds
-  console.log('menuIds', menuIds)
 
   if (!menuIds) return []
 
