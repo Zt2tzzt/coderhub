@@ -119,7 +119,7 @@ class MomentController {
    */
   async addLabels(ctx, next) {
     // 1.获取 labels, momentId
-    const { preparedLabels, nweLabels } = ctx
+    const { preparedLabels, newLabels } = ctx
     const { momentId } = ctx.params
 
     // 2.在中间表 moment_label 插入记录
@@ -138,7 +138,7 @@ class MomentController {
         code: 1,
         msg: '已为动态新增标签，data 中是新增的标签~',
         data: {
-          nweLabels,
+          newLabels,
           newRelation: result.filter(res => !!res)
         }
       }
