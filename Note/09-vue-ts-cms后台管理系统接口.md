@@ -102,7 +102,7 @@ class RoleController {
    * @return {*}
    */
   async list(ctx, next) {
-    const { offset = 0, limit = 10} = ctx.query;
+    const { offset = 0, limit = 10 } = ctx.query;
     const result = await roleService.list(Number(offset), Number(limit))
     
     ctx.body = {
@@ -179,7 +179,7 @@ module.exports = new RoleService()
 
 ## 二、菜单接口
 
-在 postman 中，创建菜单接口；
+在 postman 中，创建“菜单接口”文件夹；
 
 在数据库中，创建 menu 表
 
@@ -378,7 +378,7 @@ async wholeMenu() {
 
 ### 4.中间表（role_menu)
 
-在 role 表和 menu 表之间，创建关系表 role_menu 表。
+在 role 表和 menu 表之间，创建关系表 `role_menu` 表。
 
 ```mysql
 CREATE TABLE IF NOT EXISTS `role_menu`(
@@ -386,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `role_menu`(
   menuId INT NOT NULL,
   createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(roleId, menuId),
+  PRIMARY KEY (roleId, menuId),
   FOREIGN KEY (roleId) REFERENCES role(id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (menuId) REFERENCES menu(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -422,9 +422,9 @@ async assignMenu(ctx, next) {
 
 方案一：判断角色被分配的权限，在中间表中，是否已经存在，若不存在，再插入进中间表（类似于前面给动态分配标签的接口）；
 
-方案二：直接在中间表中，删除已有的权限，再重新插入记录。
+方案二：直接在中间表中，删除已有的权限，再重新插入记录（项目中采用）。
 
-项目中采用”方案二“。
+src\cms\service\role.service.js
 
 ```js
 async assignmenu(roleId, menuIds) {
