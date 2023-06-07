@@ -28,6 +28,7 @@ class MenuController {
    */
   async list(ctx, next) {
     const result = await menuService.wholeMenu()
+    
     ctx.body = {
       code: 1,
       msg: '获取完整菜单成功~',

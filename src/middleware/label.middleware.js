@@ -28,11 +28,11 @@ const verifyLabelExist = async (ctx, next) => {
   )
 
   const preparedLabels = await Promise.all(promises)
-  const nweLabels = preparedLabels.filter(label => label.isNew)
+  const newLabels = preparedLabels.filter(label => label.isNew)
 
   console.log('preparedLabels:', preparedLabels)
   ctx.preparedLabels = preparedLabels
-  ctx.nweLabels = nweLabels
+  ctx.nweLabels = newLabels
 
   await next()
 }

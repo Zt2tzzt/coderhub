@@ -1,4 +1,4 @@
-const roleService = require('../service/role.service');
+const roleService = require('../service/role.service')
 
 class RoleController {
   /**
@@ -37,7 +37,7 @@ class RoleController {
    */
   async list(ctx, next) {
     // 1.获取角色基本信息
-    const { offset = 0, limit = 10} = ctx.query;
+    const { offset = 0, limit = 10 } = ctx.query
     const result = await roleService.list(Number(offset), Number(limit))
 
     // 2.获取菜单信息
@@ -79,7 +79,6 @@ class RoleController {
       msg: '分配权限成功~'
     }
   }
-
 }
 
 module.exports = new RoleController()
