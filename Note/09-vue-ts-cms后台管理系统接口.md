@@ -90,10 +90,6 @@ class RoleController {
     }
   }
 
-  async remove(ctx, next) {}
-  
-  async update(ctx, next) {}
-
   /**
    * @description: 此函数用于：查询角色列表
    * @Author: ZeT1an
@@ -111,8 +107,6 @@ class RoleController {
       data: result
     }
   }
-
-  async detail(ctx, next) { }
 }
 
 module.exports = new RoleController()
@@ -386,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `role_menu`(
   menuId INT NOT NULL,
   createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(roleId, menuId),
+  PRIMARY KEY (roleId, menuId),
   FOREIGN KEY (roleId) REFERENCES role(id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (menuId) REFERENCES menu(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -425,6 +419,8 @@ async assignMenu(ctx, next) {
 方案二：直接在中间表中，删除已有的权限，再重新插入记录。
 
 项目中采用”方案二“。
+
+src\cms\controller\role.controller.js
 
 ```js
 async assignmenu(roleId, menuIds) {

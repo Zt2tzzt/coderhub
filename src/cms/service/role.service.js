@@ -54,7 +54,7 @@ class RoleService {
    * @description: 此函数用于：获取角色对应的菜单权限记录
    * @Author: ZeT1an
    * @param {*} roleId 角色 id
-   * @return {*}
+   * @return {Array} 菜单详情对象的数组
    */
   async getRoleMenu(roleId) {
     // 1.根据 roleId，获取所有的 menuId
