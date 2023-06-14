@@ -392,6 +392,8 @@ CREATE TABLE IF NOT EXISTS `role_menu`(
 
 修改 `role.controller.js` 中，`assignMenu` 方法。
 
+src\cms\controller\role.controller.js
+
 ```js
 async assignMenu(ctx, next) {
   // 1.获取参数
@@ -419,8 +421,6 @@ async assignMenu(ctx, next) {
 方案二：直接在中间表中，删除已有的权限，再重新插入记录（项目中采用）。
 
 src\cms\service\role.service.js
-
-src\cms\controller\role.controller.js
 
 ```js
 async assignmenu(roleId, menuIds) {
